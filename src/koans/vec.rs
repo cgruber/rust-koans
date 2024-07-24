@@ -1,4 +1,5 @@
 // Vecs act sort of like arrays, but allow more flexibility
+
 #[test]
 fn making_an_empty_vec() {
     let vector: Vec<()> = vec![];
@@ -108,7 +109,6 @@ fn remove() {
 fn empty_vecs() {
     let vector = vec![""; 0];
     assert!(vector.is_empty()); // should return true
-    assert!(!vector.is_empty()); // should return false
 }
 
 // Elements of a Vec can be accessed by their index.
@@ -195,7 +195,8 @@ fn splitting() {
 #[test]
 fn more_splitting() {
     let vector = vec![1, 3, 4, 7, 9];
-    for num in vector.split(|&x| x <= 3 || x > 4) {
+    for num in vector.split(|&x| x == 4 ) {
+        println!("{:?}", num);
         assert!(!num.contains(&4));
     }
 }
