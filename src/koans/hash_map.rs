@@ -38,16 +38,18 @@ fn brackets() {
 // Keys in HashMaps will always be unique
 #[test]
 fn duplicate_key() {
-    let mut hm = HashMap::new();
+    let mut hm = HashMap::<&str, &str>::new();
     hm.insert("Harry Potter", "Sorcerer's Stone");
     hm.insert("Harry Potter", "Goblet of Fire");
-    assert_eq!(hm[&"Harry Potter"], "Sorcerer's Stone");
+    assert_eq!(hm[&"Harry Potter"], "Goblet of Fire");
 }
 
 // A HashMap's values, however, do not have this constraint
 #[test]
 fn duplicate_values() {
-    let mut hm = HashMap::new();
+    let mut hm = HashMap::<&str, &str>::new();
+    hm.insert("Sorcerer's Stone", "Harry Potter");
+    hm.insert("Goblet of Fire", "Harry Potter");
     assert_eq!(hm[&"Sorcerer's Stone"], hm[&"Goblet of Fire"]);
 }
 
@@ -73,7 +75,7 @@ fn just_the_values() {
     map.insert("Red", "Fish");
     map.insert("Blue", "Fish");
     for num in map.values() {
-        assert_eq!(num, "Fish");
+        assert_eq!(num, &"Fish");
     }
 }
 
@@ -85,7 +87,7 @@ fn iterating() {
     map.insert(2, 4);
     map.insert(3, 9);
     for (key, value) in map.iter() {
-        assert_eq!(&(key), value);
+        assert_eq!(key * key, *value);
     }
 }
 
@@ -96,8 +98,8 @@ fn iterating_2() {
     map.insert(1, 1);
     map.insert(2, 4);
     map.insert(3, 9);
-    for __ in &map {
-        assert_eq!(__, value);
+    for (key ,value) in &map {
+        assert_eq!(key * key, *value);
     }
 }
 
@@ -107,5 +109,6 @@ fn clearing() {
     let mut map = HashMap::new();
     map.insert("chairs", 30);
     map.insert("tables", 8);
+    map.clear();
     assert_eq!(map.get("chairs"), None);
 }
